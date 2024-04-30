@@ -117,10 +117,21 @@ function App() {
         }
       }
 
+      const refFormShare = useRef<HTMLFormElement>(null);
+
   return (
     <>
       <input type="file" ref={refFile} onChange={getFile} name="x" id="x" />
      {/* <MainPage /> */}
+     <form action="" ref={refFormShare} name="submit-to-google-sheet" onSubmit={(e)=>{
+        e.preventDefault();
+        fetch("https://script.google.com/macros/s/AKfycbxgadAliIzDBUpkb64G7rhHXpJtHWicmDRiO9_s44LjUeisbge9GWYnGzFlHFwVFuFA0g/exec", { method: 'POST', body: new FormData(refFormShare.current as HTMLFormElement)})
+      .then(response => console.log('Success!', response))
+      .catch(error => console.error('Error!', error.message))
+  }}>
+      <input type="text"   placeholder='Account' name='Account' required />
+      <button type="submit">Wyslij</button>
+     </form>
     </>
   )
 }
